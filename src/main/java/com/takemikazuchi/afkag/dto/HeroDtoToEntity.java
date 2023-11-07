@@ -1,6 +1,7 @@
 package com.takemikazuchi.afkag.dto;
 
 import com.takemikazuchi.afkag.entitys.Elevation;
+import com.takemikazuchi.afkag.entitys.Fraction;
 import com.takemikazuchi.afkag.entitys.Hero;
 import com.takemikazuchi.afkag.entitys.HeroRank;
 import com.takemikazuchi.afkag.heroes.ElevationController;
@@ -8,6 +9,8 @@ import com.takemikazuchi.afkag.heroes.RankController;
 import com.takemikazuchi.afkag.repositorys.ElevationRepository;
 import com.takemikazuchi.afkag.repositorys.RankRepository;
 import com.takemikazuchi.afkag.services.ElevationService;
+import com.takemikazuchi.afkag.services.FractionService;
+import com.takemikazuchi.afkag.services.RankService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,11 +24,15 @@ import java.util.List;
 
 @Component
 public class HeroDtoToEntity {
-    @Autowired
-    private ElevationService elevationService;
+    private final ElevationService elevationService;
+    private final RankService rankService;
+    private final FractionService fractionService;
 
-    @Autowired
-    private RankController rankController;
+    public HeroDtoToEntity(ElevationService elevationService, RankService rankService, FractionService fractionService) {
+        this.elevationService = elevationService;
+        this.rankService = rankService;
+        this.fractionService = fractionService;
+    }
 
     public Hero dtoToEntity(HeroDto heroDto) {
         Elevation minElevation = null;
@@ -38,6 +45,15 @@ public class HeroDtoToEntity {
         HeroRank im = null;
         HeroRank vr = null;
         HeroRank hunt = null;
+        Fraction fraction = null;
+
+        List<Fraction> fractions = fractionService.getAllFractions();
+        for (Fraction value : fractions) {
+            String fractionName = value.getName();
+            if (fractionName.equals(heroDto.getFraction())) {
+                fraction = value;
+            }
+        }
 
         List<Elevation> elevations = elevationService.getAllElevations();
         for (Elevation value : elevations) {
@@ -54,7 +70,7 @@ public class HeroDtoToEntity {
             }
         }
 
-        List<HeroRank> ranks = rankController.getAllRanks();
+        List<HeroRank> ranks = rankService.getAllRanks();
         for (HeroRank rank : ranks) {
             if (rank.getName().equals(heroDto.getCamp())) {
                 camp = rank;
@@ -80,10 +96,10 @@ public class HeroDtoToEntity {
         }
 
         Hero hero = new Hero();
-        hero.setId(heroDto.getId());
         hero.setAvatar(heroDto.getAvatar());
         hero.setName(heroDto.getName());
         hero.setAnotherName(heroDto.getAnotherName());
+        hero.setFraction(fraction);
         hero.setInfo(heroDto.getInfo());
         hero.setElevationMin(minElevation);
         hero.setElevationOpt(optElevation);
@@ -124,6 +140,15 @@ public class HeroDtoToEntity {
         HeroRank im = null;
         HeroRank vr = null;
         HeroRank hunt = null;
+        Fraction fraction = null;
+
+        List<Fraction> fractions = fractionService.getAllFractions();
+        for (Fraction value : fractions) {
+            String fractionName = value.getName();
+            if (fractionName.equals(heroDto.getFraction())) {
+                fraction = value;
+            }
+        }
 
         List<Elevation> elevations = elevationService.getAllElevations();
         for (Elevation value : elevations) {
@@ -140,7 +165,7 @@ public class HeroDtoToEntity {
             }
         }
 
-        List<HeroRank> ranks = rankController.getAllRanks();
+        List<HeroRank> ranks = rankService.getAllRanks();
         for (HeroRank rank : ranks) {
             if (rank.getName().equals(heroDto.getCamp())) {
                 camp = rank;
@@ -168,6 +193,7 @@ public class HeroDtoToEntity {
         hero.setAvatar(heroDto.getAvatar());
         hero.setName(heroDto.getName());
         hero.setAnotherName(heroDto.getAnotherName());
+        hero.setFraction(fraction);
         hero.setInfo(heroDto.getInfo());
         hero.setElevationMin(minElevation);
         hero.setElevationOpt(optElevation);

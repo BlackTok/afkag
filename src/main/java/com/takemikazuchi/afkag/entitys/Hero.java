@@ -7,25 +7,63 @@ import jakarta.persistence.*;
 public class Hero {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
-
-    private Integer minIi, optIi, maxIi, minFurniture, optFurniture, maxFurniture, minEngrave, optEngrave, maxEngrave;
-    private String avatar, name, anotherName, info, min_f_info, opt_f_info, max_f_info, min_e_info, opt_e_info, max_e_info;
+    @Column(name = "min_ii")
+    private Integer minIi;
+    @Column(name = "max_engrave")
+    private Integer maxEngrave;
+    @Column(name = "opt_engrave")
+    private Integer optEngrave;
+    @Column(name = "min_engrave")
+    private Integer minEngrave;
+    @Column(name = "max_furniture")
+    private Integer maxFurniture;
+    @Column(name = "opt_furniture")
+    private Integer optFurniture;
+    @Column(name = "min_furniture")
+    private Integer minFurniture;
+    @Column(name = "max_ii")
+    private Integer maxIi;
+    @Column(name = "opt_ii")
+    private Integer optIi;
+    @Column(name = "avatar")
+    private String avatar;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "another_name")
+    private String anotherName;
+    @Column(name = "info")
+    private String info;
+    @Column(name = "min_f_info")
+    private String min_f_info;
+    @Column(name = "opt_f_info")
+    private String opt_f_info;
+    @Column(name = "max_f_info")
+    private String max_f_info;
+    @Column(name = "min_e_info")
+    private String min_e_info;
+    @Column(name = "opt_e_info")
+    private String opt_e_info;
+    @Column(name = "max_e_info")
+    private String max_e_info;
+    @Column(name = "rank")
     private Double rank;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "fraction_id")
     private Fraction fraction;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "minElevation")
+    @JoinColumn(name = "min_elevation")
     private Elevation elevationMin;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "optElevation")
+    @JoinColumn(name = "opt_elevation")
     private Elevation elevationOpt;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "maxElevation")
+    @JoinColumn(name = "max_elevation")
     private Elevation elevationMax;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -310,5 +348,43 @@ public class Hero {
 
     public void setFraction(Fraction fraction) {
         this.fraction = fraction;
+    }
+
+    @Override
+    public String toString() {
+        return "Hero{" +
+                "id=" + id +
+                ", minIi=" + minIi +
+                ", optIi=" + optIi +
+                ", maxIi=" + maxIi +
+                ", minFurniture=" + minFurniture +
+                ", optFurniture=" + optFurniture +
+                ", maxFurniture=" + maxFurniture +
+                ", minEngrave=" + minEngrave +
+                ", optEngrave=" + optEngrave +
+                ", maxEngrave=" + maxEngrave +
+                ", avatar='" + avatar + '\'' +
+                ", name='" + name + '\'' +
+                ", anotherName='" + anotherName + '\'' +
+                ", info='" + info + '\'' +
+                ", min_f_info='" + min_f_info + '\'' +
+                ", opt_f_info='" + opt_f_info + '\'' +
+                ", max_f_info='" + max_f_info + '\'' +
+                ", min_e_info='" + min_e_info + '\'' +
+                ", opt_e_info='" + opt_e_info + '\'' +
+                ", max_e_info='" + max_e_info + '\'' +
+                ", rank=" + rank +
+                ", fraction=" + fraction +
+                ", elevationMin=" + elevationMin +
+                ", elevationOpt=" + elevationOpt +
+                ", elevationMax=" + elevationMax +
+                ", campRank=" + campRank +
+                ", towerRank=" + towerRank +
+                ", pmRank=" + pmRank +
+                ", huntRank=" + huntRank +
+                ", kkRank=" + kkRank +
+                ", imRank=" + imRank +
+                ", vrRank=" + vrRank +
+                '}';
     }
 }

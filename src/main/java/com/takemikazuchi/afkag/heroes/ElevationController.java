@@ -16,8 +16,12 @@ import java.util.List;
 
 @RestController
 public class ElevationController {
+    private final ElevationService elevationService;
+
     @Autowired
-    private ElevationService elevationService;
+    public ElevationController(ElevationService elevationService) {
+        this.elevationService = elevationService;
+    }
 
     @GetMapping(path = "/elevations")
     public @ResponseBody List<Elevation> getAllElevations() {

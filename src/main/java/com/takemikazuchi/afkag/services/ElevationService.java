@@ -9,10 +9,15 @@ import java.util.List;
 
 @Service
 public class ElevationService {
+    private final ElevationRepository elevationRepository;
+
     @Autowired
-    private ElevationRepository elevationRepository;
+    public ElevationService(ElevationRepository elevationRepository) {
+        this.elevationRepository = elevationRepository;
+    }
+
 
     public List<Elevation> getAllElevations() {
-        return elevationRepository.getAll().stream().toList();
+        return elevationRepository.findAll();
     }
 }

@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ElevationRepository extends JpaRepository<Elevation, Integer> {
-    default List<Elevation> getAll() {
-        return this.findAll().stream().toList();
-    }
+    //List<Elevation> getAll();
 }
