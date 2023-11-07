@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "heroes")
 public class Hero {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name = "min_ii")
@@ -29,7 +29,7 @@ public class Hero {
     private Integer optIi;
     @Column(name = "avatar")
     private String avatar;
-    @Column(name = "name")
+    @Column(name = "name_hero")
     private String name;
     @Column(name = "another_name")
     private String anotherName;
@@ -47,7 +47,7 @@ public class Hero {
     private String opt_e_info;
     @Column(name = "max_e_info")
     private String max_e_info;
-    @Column(name = "rank")
+    @Column(name = "rank_hero")
     private Double rank;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -1,4 +1,4 @@
-package com.takemikazuchi.afkag.heroes;
+package com.takemikazuchi.afkag.controllers;
 
 import com.takemikazuchi.afkag.dto.HeroDto;
 import com.takemikazuchi.afkag.dto.HeroDtoToEntity;
@@ -7,6 +7,9 @@ import com.takemikazuchi.afkag.repositorys.HeroRepository;
 import com.takemikazuchi.afkag.services.ElevationService;
 import com.takemikazuchi.afkag.services.FractionService;
 import com.takemikazuchi.afkag.services.RankService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ExpressionException;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name="Герои", description="Информация по героям")
 public class HeroController {
     @Autowired
     private HeroRepository heroRepository;
@@ -27,26 +31,36 @@ public class HeroController {
     @Autowired
     private RankService rankService;
 
-//    @PostMapping(path="/heroes") // Map ONLY POST Requests
-//    public @ResponseBody String addNewHero (@RequestParam String name
-//            , @RequestParam String email) {
-//        // @ResponseBody means the returned String is the response, not a view name
-//        // @RequestParam means it is a parameter from the GET or POST request
-//
-//        Hero hero = new Hero();
-//
-//        return "Saved";
-//    }
+    private final HeroDtoToEntity heroDtoToEntity = new HeroDtoToEntity(elevationService, rankService, fractionService);
+
     @GetMapping(path = "/heroes")
+    @Operation(
+            summary = "Все герои",
+            description = "Возвращает список всех героев"
+    )
     public @ResponseBody Iterable<HeroDto> getAllHeroes() {
         return heroRepository.getAll();
     }
 
-    @PostMapping(path = "/heroes/add")
-    public Hero createEmployee(@RequestBody HeroDto heroDto) {
-        HeroDtoToEntity heroDtoToEntity = new HeroDtoToEntity(elevationService, rankService, fractionService);
-        Hero hero = heroDtoToEntity.dtoToEntity(heroDto);
+    @GetMapping(path = "/heroes/{id}")
+    @Operation(
+            summary = "Герой",
+            description = "Возвращает героя по его id"
+    )
+    public @ResponseBody HeroDto getHeroById(@PathVariable int id) {
+        Hero hero = heroRepository.findById(id)
+                .orElseThrow(() -> new ExpressionException("Employee not exist with id: " + id));
 
+        return new HeroDto(hero);
+    }
+
+    @PostMapping(path = "/heroes/add")
+    @Operation(
+            summary = "Добавить героя",
+            description = "Добавляет нового героя в базу данных"
+    )
+    public Hero createEmployee(@RequestBody HeroDto heroDto) {
+        Hero hero = heroDtoToEntity.dtoToEntity(heroDto);
 
         heroRepository.saveAndFlush(hero);
 
@@ -54,7 +68,13 @@ public class HeroController {
     }
 
     @PutMapping("/heroes/{id}")
-    public ResponseEntity<Hero> updateEmployee(@PathVariable int id, @RequestBody HeroDto heroDto) {
+    @Operation(
+            summary = "Изменить героя",
+            description = "Изменяет герояв базе данных. В пути указываетс id героя, в теле запроса json со всеми данными героя"
+    )
+    public ResponseEntity<Hero> updateEmployee(
+            @PathVariable int id,
+            @RequestBody HeroDto heroDto) {
         HeroDtoToEntity heroDtoToEntity = new HeroDtoToEntity(elevationService, rankService, fractionService);
 
         Hero hero = heroRepository.findById(id)
@@ -62,26 +82,9 @@ public class HeroController {
 
         Hero updateHero = heroDtoToEntity.dtoToEntityUpdate(hero, heroDto);
 
-        heroRepository.save(updateHero);
+        heroRepository.saveAndFlush(updateHero);
 
         return ResponseEntity.ok(updateHero);
     }
 
-//    @GetMapping(path="/heroes/{id}")
-//    public Optional<Hero> getHero(@PathVariable("id") String idString) {
-//        try {
-//            int id = Integer.parseInt(idString);
-//            return heroRepository.findById(id);
-//        } catch (NumberFormatException e) {
-//            return Optional.empty();
-//        }
-//    }
-
-//    @GetMapping(path="/heroes/filter")
-//    public Iterable<Hero> getHeroesByFilter(@RequestParam String fraction) {
-//        Map<String, String> filters = new HashMap<>();
-//        filters.put("fraction", fraction);
-//
-//        return  heroRepository.findAllByFilters(filters);
-//    }
 }

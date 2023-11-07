@@ -4,22 +4,11 @@ import com.takemikazuchi.afkag.entitys.Elevation;
 import com.takemikazuchi.afkag.entitys.Fraction;
 import com.takemikazuchi.afkag.entitys.Hero;
 import com.takemikazuchi.afkag.entitys.HeroRank;
-import com.takemikazuchi.afkag.heroes.ElevationController;
-import com.takemikazuchi.afkag.heroes.RankController;
-import com.takemikazuchi.afkag.repositorys.ElevationRepository;
-import com.takemikazuchi.afkag.repositorys.RankRepository;
 import com.takemikazuchi.afkag.services.ElevationService;
 import com.takemikazuchi.afkag.services.FractionService;
 import com.takemikazuchi.afkag.services.RankService;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
