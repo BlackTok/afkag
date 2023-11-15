@@ -33,7 +33,7 @@ public class HeroController {
 
     private final HeroDtoToEntity heroDtoToEntity = new HeroDtoToEntity(elevationService, rankService, fractionService);
 
-    @GetMapping(path = "@netlify/heroes")
+    @GetMapping(path = "heroes")
     @Operation(
             summary = "Все герои",
             description = "Возвращает список всех героев"
