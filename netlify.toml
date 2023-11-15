@@ -7,5 +7,5 @@
 
 [build]
 base    = ""
-publish = "afkag"
+publish = "target/site"
 command = "./mvnw clean site"
