@@ -7,5 +7,5 @@
 
 [build]
 base    = ""
-publish = "afkag.netlify.app"
+publish = "afkag"
 command = "./mvnw clean site"
